@@ -1,4 +1,0 @@
-template_type,employee_name,employee_id,position,current_position,new_position,department,current_department,new_department,salary,salary_increase,start_date,joining_date,leaving_date,termination_date,last_working_day,transfer_date,confirmation_date,probation_start_date,warning_date,reporting_manager,company_name,work_location,new_location,benefits,reason,issue_description,expected_improvement,achievement,bonus_amount,bonus_period
-offer_letter,John Smith,EMP001,Software Engineer,,,Technology,,,75000,,2025-01-15,,,,,,,,,Sarah Johnson,DHL Express,"Cincinnati, OH",,"Health Insurance, Dental, 401k",,,,,,
-experience_letter,Maria Garcia,EMP002,Marketing Manager,,,Marketing,,,,,,2022-01-10,2024-12-15,,,,,,,,DHL Express,,,,,,,Led successful campaign increasing brand awareness by 30%,,
-bonus_letter,Robert Johnson,EMP003,Sales Representative,,,Sales,,,,,,,,,,,,,,Michael Davis,DHL Express,,,,,,,Exceeded quarterly sales target by 25%,5000,Q4 2024
