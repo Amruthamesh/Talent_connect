@@ -1,0 +1,147 @@
+.interviewer-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 8px 0;
+
+    h1 {
+      margin-bottom: 2px;
+    }
+  }
+
+  &__sub {
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+
+    @media (max-width: 1100px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  &__video-placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--border-subtle);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    min-height: 380px;
+
+    p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+  }
+
+  &__video-box {
+    width: 100%;
+    height: 240px;
+    border-radius: 12px;
+    background: var(--bg-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+  }
+
+  &__copilot {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  &__copilot textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    padding: 14px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 14px;
+    min-height: 140px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #f8fafc;
+  }
+
+  &__copilot textarea:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+    background: #ffffff;
+  }
+
+  &__transcript {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__transcript-item {
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 12px 14px;
+    background: #f8fafc;
+  }
+
+  &__question {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #111827;
+  }
+
+  &__answer {
+    margin: 0;
+    color: #4b5563;
+    font-size: 14px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  &__hint {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 13px;
+  }
+
+  &__empty {
+    color: var(--text-secondary);
+  }
+
+  &__socket-status {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+}

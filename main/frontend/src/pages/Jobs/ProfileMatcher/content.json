@@ -1,0 +1,19 @@
+{
+  "title": "Profile Matcher",
+  "subtitle": "Match candidate profiles against job requirements using AI",
+  "jobDescriptionTitle": "Job Description",
+  "jobDescriptionSubtitle": "Paste or type the job description you want to match against",
+  "jobDescriptionPlaceholder": "Enter the complete job description here, including responsibilities, requirements, and qualifications...",
+  "uploadTitle": "Upload Candidate Profiles",
+  "uploadSubtitle": "Upload resumes in PDF or DOC format",
+  "matchButton": "Match Profiles with AI",
+  "resultsTitle": "Matching Results",
+  "resultsSubtitle": "Upload profiles and run matching to see results",
+  "emptyResults": "No matches yet. Upload profiles and click 'Match Profiles' to see results.",
+  "scoreLabels": {
+    "excellent": "Excellent Match",
+    "good": "Good Match",
+    "fair": "Fair Match",
+    "poor": "Poor Match"
+  }
+}

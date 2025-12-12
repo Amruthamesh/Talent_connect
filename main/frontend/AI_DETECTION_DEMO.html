@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Connect - Schedule Interview with AI Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            color: #111;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .form-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Resume Upload */
+        .upload-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-label {
+            display: block;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .upload-input-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .resume-input {
+            display: none;
+        }
+
+        .upload-button {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .upload-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .upload-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .selected-file {
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .selected-file.show {
+            display: flex;
+        }
+
+        .checking-status {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .checking-status.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e9ecef;
+            border-top-color: #0066cc;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* AI Detection Alert */
+        .ai-alert {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            animation: slideIn 0.3s ease;
+        }
+
+        .ai-alert.hidden {
+            display: none;
+        }
+
+        .ai-alert.danger {
+            border-left-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .ai-alert.warning {
+            border-left-color: #ffc107;
+            background: #fffbf0;
+        }
+
+        .ai-alert.success {
+            border-left-color: #28a745;
+            background: #f0fdf4;
+        }
+
+        .ai-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-icon {
+            font-size: 1.75rem;
+        }
+
+        .ai-info {
+            flex: 1;
+        }
+
+        .ai-info h4 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+            margin-top: 0.25rem;
+            margin-left: 0.5rem;
+        }
+
+        .ai-alert.danger .risk-badge {
+            background: #dc3545;
+        }
+
+        .ai-alert.warning .risk-badge {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .ai-alert.success .risk-badge {
+            background: #28a745;
+        }
+
+        .confidence-bar {
+            margin-bottom: 1.5rem;
+        }
+
+        .confidence-bar label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .ai-alert.danger .progress-fill {
+            background: linear-gradient(90deg, #ff6b6b 0%, #dc3545 100%);
+        }
+
+        .ai-alert.warning .progress-fill {
+            background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
+        }
+
+        .ai-alert.success .progress-fill {
+            background: linear-gradient(90deg, #84cc16 0%, #22c55e 100%);
+        }
+
+        .score-value {
+            font-weight: 700;
+            color: #111;
+            font-size: 1rem;
+        }
+
+        .indicators-section {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 6px;
+        }
+
+        .indicators-section h5 {
+            margin: 0 0 0.75rem 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .indicators-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .indicator-item {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #555;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .indicator-item strong {
+            color: #111;
+            text-transform: capitalize;
+        }
+
+        .indicator-score {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .detailed-analysis {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 6px;
+        }
+
+        .detailed-analysis summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #0066cc;
+            font-size: 0.9rem;
+            padding: 0.5rem;
+            user-select: none;
+        }
+
+        .detailed-analysis summary:hover {
+            text-decoration: underline;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .analysis-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .analysis-item .label {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .analysis-item .value {
+            font-weight: 700;
+            color: #111;
+            font-size: 0.95rem;
+        }
+
+        .explanation {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.6;
+            font-style: italic;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 4px;
+        }
+
+        /* Warning Banner */
+        .warning-banner {
+            display: none;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .warning-banner.show {
+            display: flex;
+        }
+
+        .warning-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .warning-text {
+            flex: 1;
+        }
+
+        .warning-text strong {
+            display: block;
+            color: #856404;
+            margin-bottom: 0.25rem;
+        }
+
+        .warning-text p {
+            margin: 0;
+            color: #856404;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Buttons */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: #0066cc;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #0052a3;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #dee2e6;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            padding: 1rem;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Demo Tabs */
+        .demo-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .demo-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .demo-tab.active {
+            background: #0066cc;
+            color: white;
+        }
+
+        .demo-tab:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Demo Tabs -->
+        <div class="demo-tabs">
+            <button class="demo-tab active" onclick="loadDemo('human')">👤 Human Resume</button>
+            <button class="demo-tab" onclick="loadDemo('ai')">🤖 AI-Generated Resume</button>
+            <button class="demo-tab" onclick="loadDemo('mixed')">🔄 Mixed Resume</button>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message">
+            ✅ Interview scheduled successfully!
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Schedule Interview</h1>
+            <p>Create a new interview session with AI-powered resume screening</p>
+        </div>
+
+        <!-- Candidate Information -->
+        <div class="form-card">
+            <h3>Candidate Information</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="candidate_name">Candidate Name *</label>
+                    <input id="candidate_name" type="text" placeholder="Enter candidate full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="candidate_email">Email Address</label>
+                    <input id="candidate_email" type="email" placeholder="candidate@example.com">
+                </div>
+            </div>
+        </div>
+
+        <!-- Position Details -->
+        <div class="form-card">
+            <h3>Position Details</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="role">Role *</label>
+                    <input id="role" type="text" placeholder="e.g., Senior Software Engineer" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input id="company" type="text" placeholder="Company name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="round_type">Interview Round</label>
+                <select id="round_type">
+                    <option value="round_1">Round 1 - Initial Screening</option>
+                    <option value="round_2">Round 2 - Technical</option>
+                    <option value="round_3">Round 3 - Managerial</option>
+                    <option value="round_4">Round 4 - Final</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Resume & AI Detection -->
+        <div class="form-card">
+            <h3>Resume & AI Detection</h3>
+            <div class="upload-section">
+                <label class="upload-label">Resume Upload</label>
+                <div class="upload-input-wrapper">
+                    <input id="resumeInput" class="resume-input" type="file" accept=".pdf,.doc,.docx">
+                    <button class="upload-button" onclick="document.getElementById('resumeInput').click()">
+                        📎 Choose Resume
+                    </button>
+                </div>
+                <div id="selectedFile" class="selected-file">
+                    <span>📄</span>
+                    <span id="fileName"></span>
+                </div>
+                <div id="checkingStatus" class="checking-status">
+                    <div class="spinner"></div>
+                    <p>Analyzing resume for AI generation...</p>
+                </div>
+            </div>
+
+            <!-- AI Detection Alert -->
+            <div id="aiAlert" class="ai-alert hidden">
+                <div class="ai-alert-header">
+                    <span id="aiIcon" class="ai-icon"></span>
+                    <div class="ai-info">
+                        <h4>AI Generation Detection <span id="riskBadge" class="risk-badge"></span></h4>
+                    </div>
+                </div>
+
+                <div class="ai-message" id="aiMessage"></div>
+
+                <div class="confidence-bar">
+                    <label>Confidence Score</label>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <span class="score-value"><span id="scoreValue">0</span>%</span>
+                </div>
+
+                <div id="indicatorsSection" class="indicators-section" style="display: none;">
+                    <h5>Detected Issues:</h5>
+                    <ul id="indicatorsList" class="indicators-list"></ul>
+                </div>
+
+                <details class="detailed-analysis">
+                    <summary>View Detailed Analysis</summary>
+                    <div id="analysisGrid" class="analysis-grid"></div>
+                </details>
+
+                <div id="explanation" class="explanation"></div>
+            </div>
+
+            <!-- Warning Banner -->
+            <div id="warningBanner" class="warning-banner">
+                <span class="warning-icon">⚠️</span>
+                <div class="warning-text">
+                    <strong>High Risk AI Detection</strong>
+                    <p>This resume shows strong indicators of AI generation. Proceed with caution.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Details -->
+        <div class="form-card">
+            <h3>Schedule Details</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date">Date *</label>
+                    <input id="date" type="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Time *</label>
+                    <input id="time" type="time" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea id="notes" placeholder="Add any additional notes..."></textarea>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-card" style="border-top: 1px solid #e9ecef; padding-top: 1.5rem;">
+            <div class="form-actions">
+                <button class="btn btn-primary" onclick="handleSubmit()">📅 Schedule Interview</button>
+                <button class="btn btn-secondary" onclick="handleReset()">Clear Form</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample AI Detection Results (simulated from backend)
+        const demoData = {
+            human: {
+                is_ai_generated: false,
+                confidence_score: 6.3,
+                risk_level: "low",
+                indicators: [],
+                explanation: "This resume appears to be written by a human. No specific indicators detected.",
+                detailed_analysis: {
+                    common_phrases_score: 0,
+                    ai_patterns_score: 0,
+                    perfection_score: 7,
+                    language_metrics_score: 20,
+                    structure_score: 15,
+                    metadata_score: 0
+                }
+            },
+            ai: {
+                is_ai_generated: true,
+                confidence_score: 78.5,
+                risk_level: "high",
+                indicators: [
+                    {
+                        type: "common_phrases",
+                        score: 100,
+                        message: "Resume contains many common AI-generated phrases"
+                    },
+                    {
+                        type: "ai_patterns",
+                        score: 72,
+                        message: "Multiple AI-specific writing patterns detected"
+                    }
+                ],
+                explanation: "This resume likely contains AI-generated content (high risk). Detected issues: Resume contains many common AI-generated phrases, Multiple AI-specific writing patterns detected",
+                detailed_analysis: {
+                    common_phrases_score: 100,
+                    ai_patterns_score: 72,
+                    perfection_score: 45,
+                    language_metrics_score: 38,
+                    structure_score: 55,
+                    metadata_score: 0
+                }
+            },
+            mixed: {
+                is_ai_generated: false,
+                confidence_score: 50.5,
+                risk_level: "medium",
+                indicators: [
+                    {
+                        type: "common_phrases",
+                        score: 100,
+                        message: "Resume contains many common AI-generated phrases"
+                    },
+                    {
+                        type: "ai_patterns",
+                        score: 42,
+                        message: "Some AI-specific writing patterns detected"
+                    }
+                ],
+                explanation: "This resume shows moderate signs of AI generation. Detected issues: Resume contains some marketing language, Some AI patterns detected but overall appears mostly human-written",
+                detailed_analysis: {
+                    common_phrases_score: 65,
+                    ai_patterns_score: 42,
+                    perfection_score: 25,
+                    language_metrics_score: 35,
+                    structure_score: 50,
+                    metadata_score: 0
+                }
+            }
+        };
+
+        let currentDemo = 'human';
+
+        // Load Demo
+        function loadDemo(type) {
+            currentDemo = type;
+            
+            // Update tab styling
+            document.querySelectorAll('.demo-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Simulate file upload
+            const fileName = {
+                human: 'john_smith_resume.pdf',
+                ai: 'sarah_johnson_ai_resume.pdf',
+                mixed: 'michael_chen_resume.pdf'
+            }[type];
+
+            document.getElementById('fileName').textContent = fileName;
+            document.getElementById('selectedFile').classList.add('show');
+            document.getElementById('checkingStatus').classList.add('show');
+            document.getElementById('successMessage').classList.remove('show');
+
+            // Simulate API call delay
+            setTimeout(() => {
+                document.getElementById('checkingStatus').classList.remove('show');
+                displayAIDetectionResult(demoData[type]);
+            }, 1500);
+        }
+
+        // Display AI Detection Result
+        function displayAIDetectionResult(result) {
+            const alert = document.getElementById('aiAlert');
+            const icon = document.getElementById('aiIcon');
+            const badge = document.getElementById('riskBadge');
+            const message = document.getElementById('aiMessage');
+            const progressFill = document.getElementById('progressFill');
+            const scoreValue = document.getElementById('scoreValue');
+            const explanation = document.getElementById('explanation');
+            const warningBanner = document.getElementById('warningBanner');
+            const indicatorsSection = document.getElementById('indicatorsSection');
+            const indicatorsList = document.getElementById('indicatorsList');
+            const analysisGrid = document.getElementById('analysisGrid');
+
+            // Remove all classes
+            alert.classList.remove('danger', 'warning', 'success');
+
+            // Set risk level styling
+            if (result.risk_level === 'high') {
+                alert.classList.add('danger');
+                icon.textContent = '🚨';
+            } else if (result.risk_level === 'medium') {
+                alert.classList.add('warning');
+                icon.textContent = '⚠️';
+            } else {
+                alert.classList.add('success');
+                icon.textContent = '✅';
+            }
+
+            // Set badge
+            badge.textContent = `[${result.risk_level.toUpperCase()}]`;
+
+            // Set message
+            const messages = {
+                high: 'This resume is likely AI-generated',
+                medium: 'This resume shows signs of AI generation',
+                low: 'This resume appears to be human-written'
+            };
+            message.textContent = messages[result.risk_level];
+
+            // Set progress bar
+            progressFill.style.width = result.confidence_score + '%';
+            scoreValue.textContent = result.confidence_score;
+
+            // Set indicators
+            if (result.indicators.length > 0) {
+                indicatorsSection.style.display = 'block';
+                indicatorsList.innerHTML = '';
+                result.indicators.forEach(indicator => {
+                    const li = document.createElement('li');
+                    li.className = 'indicator-item';
+                    li.innerHTML = `
+                        <strong>${indicator.type.replace(/_/g, ' ')}:</strong> ${indicator.message}
+                        <span class="indicator-score">${indicator.score}%</span>
+                    `;
+                    indicatorsList.appendChild(li);
+                });
+            } else {
+                indicatorsSection.style.display = 'none';
+            }
+
+            // Set detailed analysis
+            analysisGrid.innerHTML = '';
+            Object.entries(result.detailed_analysis).forEach(([key, value]) => {
+                const div = document.createElement('div');
+                div.className = 'analysis-item';
+                div.innerHTML = `
+                    <span class="label">${key.replace(/_score/g, '').replace(/_/g, ' ')}</span>
+                    <span class="value">${value}%</span>
+                `;
+                analysisGrid.appendChild(div);
+            });
+
+            // Set explanation
+            explanation.textContent = result.explanation;
+
+            // Show/hide warning banner
+            if (result.risk_level === 'high') {
+                warningBanner.classList.add('show');
+            } else {
+                warningBanner.classList.remove('show');
+            }
+
+            // Show alert
+            alert.classList.remove('hidden');
+        }
+
+        // Handle Submit
+        function handleSubmit() {
+            const candidateName = document.getElementById('candidate_name').value;
+            const role = document.getElementById('role').value;
+
+            if (!candidateName || !role) {
+                alert('Please fill in required fields');
+                return;
+            }
+
+            // Simulate form submission
+            console.log('Form submitted with data:', {
+                candidate_name: candidateName,
+                candidate_email: document.getElementById('candidate_email').value,
+                role: role,
+                company: document.getElementById('company').value,
+                round_type: document.getElementById('round_type').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                notes: document.getElementById('notes').value,
+                ai_detection: demoData[currentDemo]
+            });
+
+            // Show success message
+            document.getElementById('successMessage').classList.add('show');
+            handleReset();
+        }
+
+        // Handle Reset
+        function handleReset() {
+            document.getElementById('candidate_name').value = '';
+            document.getElementById('candidate_email').value = '';
+            document.getElementById('role').value = '';
+            document.getElementById('company').value = '';
+            document.getElementById('round_type').value = 'round_1';
+            document.getElementById('date').value = '';
+            document.getElementById('time').value = '';
+            document.getElementById('notes').value = '';
+            document.getElementById('selectedFile').classList.remove('show');
+            document.getElementById('aiAlert').classList.add('hidden');
+            document.getElementById('warningBanner').classList.remove('show');
+        }
+
+        // Set default date
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').min = today;
+
+        // Simulate initial load
+        loadDemo('human');
+    </script>
+</body>
+</html>

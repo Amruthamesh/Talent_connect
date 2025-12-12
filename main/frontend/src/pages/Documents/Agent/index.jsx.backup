@@ -1,0 +1,759 @@
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import AppLayout from '@layouts/AppLayout';
+import './style.scss';
+import Button from '../../../components/atoms/Button';
+import Card from '../../../components/atoms/Card';
+import TypingIndicator from '../../../components/atoms/TypingIndicator';
+import DocumentBuilderChat from '../../../components/organisms/DocumentBuilderChat';
+import { FiArrowLeft } from 'react-icons/fi';
+
+const DocumentAgent = () => {
+  const navigate = useNavigate();
+  const [messages, setMessages] = useState([]);
+  const [sessionId, setSessionId] = useState(null);
+  const [currentStep, setCurrentStep] = useState('greeting');
+  const [loading, setLoading] = useState(false);
+  const [csvFile, setCsvFile] = useState(null);
+  const [userInput, setUserInput] = useState('');
+  const [collectedData, setCollectedData] = useState({});
+  const [requiredFields, setRequiredFields] = useState([]);
+  const [optionalFields, setOptionalFields] = useState([]);
+  const [currentField, setCurrentField] = useState(null);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [selectedTemplateName, setSelectedTemplateName] = useState('');
+  const [inputMethod, setInputMethod] = useState(null); // 'manual_entry', 'upload_csv', 'download_template'
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    startConversation();
+  }, []);
+
+  const startConversation = async () => {
+    try {
+      setLoading(true);
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const token = user.token;
+      
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/documents/agent/start',
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setSessionId(response.data.session_id);
+      setCurrentStep(response.data.next_step);
+      
+      setMessages([
+        {
+          type: 'bot',
+          content: response.data.message,
+          templates: response.data.options || response.data.templates || [],
+          timestamp: new Date()
+        }
+      ]);
+    } catch (error) {
+      console.error('Failed to start conversation:', error);
+      setMessages([
+        {
+          type: 'bot',
+          content: 'Sorry, I encountered an error starting the conversation. Please try again.',
+          timestamp: new Date()
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTemplateSelect = async (templateId) => {
+    try {
+      setLoading(true);
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const token = user.token;
+      
+      // Add user message
+      const template = messages[0].templates.find(t => t.id === templateId);
+      setMessages(prev => [...prev, {
+        type: 'user',
+        content: template?.name,
+        timestamp: new Date()
+      }]);
+
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/documents/agent/select-template',
+        {
+          session_id: sessionId,
+          template_id: templateId
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setCurrentStep(response.data.next_step);
+      setSelectedTemplate(templateId);
+      setSelectedTemplateName(template?.name || '');
+      
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        content: response.data.message,
+        required_fields: response.data.required_fields,
+        optional_fields: response.data.optional_fields,
+        options: response.data.options,
+        timestamp: new Date()
+      }]);
+
+      // Store fields for tracking
+      if (response.data.required_fields) {
+        setRequiredFields(response.data.required_fields);
+      }
+      if (response.data.optional_fields) {
+        setOptionalFields(response.data.optional_fields);
+      }
+    } catch (error) {
+      console.error('Failed to select template:', error);
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        content: 'Sorry, I encountered an error. Please try again.',
+        timestamp: new Date()
+      }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleInputMethodSelect = async (method) => {
+    try {
+      setLoading(true);
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const token = user.token;
+      
+      const methodLabels = {
+        'manual_entry': 'Fill fields manually',
+        'upload_csv': 'Upload CSV file',
+        'download_template': 'Download CSV template'
+      };
+      
+      // Add user message
+      setMessages(prev => [...prev, {
+        type: 'user',
+        content: methodLabels[method] || method,
+        timestamp: new Date()
+      }]);
+
+      // Set input method
+      setInputMethod(method);
+
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/documents/agent/input-method',
+        {
+          session_id: sessionId,
+          method: method
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setCurrentStep(response.data.current_step);
+      
+      // For manual entry, don't add messages - DocumentBuilderChat will handle it
+      if (method !== 'manual_entry') {
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          content: response.data.message,
+          csv_download_url: response.data.csv_download_url,
+          current_field: response.data.current_field,
+          requires_input: response.data.requires_input,
+          timestamp: new Date()
+        }]);
+      }
+    } catch (error) {
+      console.error('Failed to select input method:', error);
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        content: 'Sorry, I encountered an error. Please try again.',
+        timestamp: new Date()
+      }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleManualEntryComplete = async (formData) => {
+
+  const handleCsvUpload = async () => {
+    if (!csvFile) return;
+
+    try {
+      setLoading(true);
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const token = user.token;
+      
+      // Add user message
+      setMessages(prev => [...prev, {
+        type: 'user',
+        content: `Uploading ${csvFile.name}...`,
+        timestamp: new Date()
+      }]);
+
+      const formData = new FormData();
+      formData.append('file', csvFile);
+      formData.append('session_id', sessionId);
+
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/documents/agent/upload-csv',
+        formData,
+        {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+
+      setCurrentStep(response.data.current_step);
+      
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        content: response.data.message,
+        generated_count: response.data.generated_count,
+        document_ids: response.data.document_ids,
+        preview_data: response.data.preview_data,
+        template_name: response.data.template_name,
+        timestamp: new Date()
+      }]);
+
+      setCsvFile(null);
+    } catch (error) {
+      console.error('Failed to upload CSV:', error);
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        content: error.response?.data?.detail || 'Sorry, I encountered an error uploading the file. Please try again.',
+        timestamp: new Date()
+      }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFieldSubmit = async () => {
+    if (!userInput.trim() || !currentField) return;
+
+    try {
+      setLoading(true);
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const token = user.token;
+
+      // Store the value
+      const newData = { ...collectedData, [currentField]: userInput.trim() };
+      setCollectedData(newData);
+
+      // Add user message
+      setMessages(prev => [...prev, {
+        type: 'user',
+        content: `${currentField.replace('_', ' ').toUpperCase()}: ${userInput.trim()}`,
+        timestamp: new Date()
+      }]);
+
+      // Find next field
+      const allFields = [...requiredFields, ...optionalFields];
+      const currentIndex = allFields.indexOf(currentField);
+      const nextField = currentIndex < allFields.length - 1 ? allFields[currentIndex + 1] : null;
+
+      if (nextField) {
+        // Ask for next field
+        setCurrentField(nextField);
+        const isRequired = requiredFields.includes(nextField);
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          content: `Great! Now, please provide **${nextField.replace('_', ' ')}**${isRequired ? ' (required)' : ' (optional - you can type "skip")'}:`,
+          timestamp: new Date()
+        }]);
+      } else {
+        // All fields collected
+        setCurrentField(null);
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          content: `Perfect! I've collected all the information. Generating your document...`,
+          timestamp: new Date()
+        }]);
+
+        // Generate document
+        const response = await axios.post(
+          'http://localhost:8000/api/v1/documents/agent/manual-complete',
+          {
+            session_id: sessionId,
+            action: 'generate'
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          content: response.data.message,
+          generated_count: response.data.generated_count,
+          document_ids: response.data.document_ids,
+          preview_data: response.data.preview_data,
+          template_name: response.data.template_name,
+          timestamp: new Date()
+        }]);
+
+        setCurrentStep('completed');
+      }
+
+      setUserInput('');
+    } catch (error) {
+      console.error('Failed to submit field:', error);
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        content: 'Sorry, I encountered an error. Please try again.',
+        timestamp: new Date()
+      }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleManualFieldSubmit = async (fieldName, fieldValue) => {
+    try {
+      setLoading(true);
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const token = user.token;
+      
+      // Add user message
+      setMessages(prev => [...prev, {
+        type: 'user',
+        content: `${fieldName}: ${fieldValue}`,
+        timestamp: new Date()
+      }]);
+
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/documents/agent/manual-field',
+        {
+          session_id: sessionId,
+          field_name: fieldName,
+          field_value: fieldValue
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setCurrentStep(response.data.current_step);
+      
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        content: response.data.message,
+        current_field: response.data.current_field,
+        requires_input: response.data.requires_input,
+        options: response.data.options,
+        preview_data: response.data.preview_data,
+        generated_count: response.data.generated_count,
+        timestamp: new Date()
+      }]);
+    } catch (error) {
+      console.error('Failed to submit field:', error);
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        content: 'Sorry, I encountered an error. Please try again.',
+        timestamp: new Date()
+      }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderMessage = (msg, index) => {
+    if (msg.type === 'user') {
+      return (
+        <div key={index} className="message message--user">
+          <div className="message__bubble message__bubble--user">
+            {msg.content}
+          </div>
+          <div className="message__time">
+            {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div key={index} className="message message--bot">
+        <div className="message__avatar">
+          <span className="icon-robot">🤖</span>
+        </div>
+        <div className="message__content">
+          <div className="message__bubble message__bubble--bot">
+            {msg.content}
+            
+            {/* Template Selection */}
+            {msg.templates && (
+              <div className="message__templates">
+                {msg.templates.map(template => (
+                  <button
+                    key={template.id}
+                    className="template-card"
+                    onClick={() => handleTemplateSelect(template.id)}
+                    disabled={loading}
+                  >
+                    <div className="template-card__header">
+                      <span className="template-card__icon">📄</span>
+                      <h4>{template.name}</h4>
+                    </div>
+                    <p className="template-card__desc">{template.description}</p>
+                    <span className="template-card__category">{template.category}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Field Requirements */}
+            {msg.required_fields && (
+              <div className="message__fields">
+                <div className="field-section">
+                  <h5>Required Fields:</h5>
+                  <div className="field-tags">
+                    {msg.required_fields.map(field => (
+                      <span key={field} className="field-tag field-tag--required">
+                        {field}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                {msg.optional_fields && msg.optional_fields.length > 0 && (
+                  <div className="field-section">
+                    <h5>Optional Fields:</h5>
+                    <div className="field-tags">
+                      {msg.optional_fields.map(field => (
+                        <span key={field} className="field-tag field-tag--optional">
+                          {field}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Input Method Options */}
+            {msg.options && currentStep === 'input_method' && (
+              <div className="message__options">
+                {msg.options.map(option => (
+                  <button
+                    key={option.id}
+                    className="option-card"
+                    onClick={() => handleInputMethodSelect(option.id)}
+                    disabled={loading}
+                  >
+                    <div className="option-card__icon">
+                      {option.id === 'upload_csv' ? '📤' : '📥'}
+                    </div>
+                    <h4>{option.label}</h4>
+                    <p>{option.description}</p>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* CSV Download Link */}
+            {msg.csv_download_url && (
+              <div className="message__download">
+                <a 
+                  href={`http://localhost:8000${msg.csv_download_url}`}
+                  download
+                  className="download-btn"
+                >
+                  <span className="icon">📥</span>
+                  Download CSV Template
+                </a>
+              </div>
+            )}
+
+            {/* Generation Results with Preview and Download Options */}
+            {msg.generated_count !== undefined && msg.preview_data && (
+              <div className="message__results">
+                <div className="results-summary">
+                  <span className="results-icon">✅</span>
+                  <p>Successfully generated <strong>{msg.generated_count}</strong> {msg.template_name || 'documents'}</p>
+                </div>
+                
+                {/* Document Previews */}
+                <div className="document-previews">
+                  {msg.preview_data.map((preview, idx) => (
+                    <div key={preview.id} className="preview-card">
+                      <div className="preview-card__header">
+                        <h4>Document {idx + 1}</h4>
+                        <span className="employee-name">{preview.employee_name}</span>
+                      </div>
+                      <div className="preview-card__content">
+                        <pre>{preview.preview_html}</pre>
+                        <div className="pii-notice">
+                          ℹ️ Sensitive data is masked in preview. Download to get unmasked version.
+                        </div>
+                      </div>
+                      <div className="preview-card__actions">
+                        <a
+                          href={`http://localhost:8000/api/v1/documents/${preview.id}/download`}
+                          download
+                          className="download-btn download-btn--single"
+                        >
+                          <span className="icon">📄</span>
+                          Download This Letter
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Bulk Download Options */}
+                <div className="bulk-download-section">
+                  <h4>Download All Letters</h4>
+                  <button
+                    className="download-btn download-btn--bulk"
+                    onClick={async () => {
+                      try {
+                        const user = JSON.parse(localStorage.getItem('user') || '{}');
+                        const response = await axios.post(
+                          'http://localhost:8000/api/v1/documents/download-bulk',
+                          msg.document_ids,
+                          {
+                            headers: { Authorization: `Bearer ${user.token}` },
+                            responseType: 'blob'
+                          }
+                        );
+                        
+                        const url = window.URL.createObjectURL(new Blob([response.data]));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', `${msg.template_name || 'documents'}_${new Date().toISOString().split('T')[0]}.zip`);
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                      } catch (error) {
+                        console.error('Download failed:', error);
+                      }
+                    }}
+                  >
+                    <span className="icon">📦</span>
+                    Download All as ZIP ({msg.generated_count} files)
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="message__time">
+            {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <AppLayout>
+      <div className="document-agent">
+        <div className="document-agent__header">
+          <h1>📝 Document Generation Assistant</h1>
+          <p>Let me help you generate HR letters quickly and easily</p>
+        </div>
+
+        <Card className="document-agent__chat">
+          <div className="messages">
+            {messages.map(renderMessage)}
+            {loading && (
+              <div className="message message--bot">
+                <div className="message__avatar">
+                  <span className="icon-robot">🤖</span>
+                </div>
+                <div className="message__content">
+                  <div className="message__bubble message__bubble--bot">
+                    <TypingIndicator />
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* CSV Upload */}
+          {currentStep === 'csv_upload' && !loading && (
+            <div className="document-agent__upload">
+              <div className="upload-box">
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={(e) => setCsvFile(e.target.files[0])}
+                  id="csv-upload"
+                  className="upload-input"
+                />
+                <label htmlFor="csv-upload" className="upload-label">
+                  {csvFile ? (
+                    <>
+                      <span className="icon">📎</span>
+                      {csvFile.name}
+                    </>
+                  ) : (
+                    <>
+                      <span className="icon">📤</span>
+                      Click to select CSV file
+                    </>
+                  )}
+                </label>
+              </div>
+              {csvFile && (
+                <Button 
+                  variant="primary"
+                  onClick={handleCsvUpload}
+                >
+                  Upload and Generate
+                </Button>
+              )}
+            </div>
+          )}
+
+          {/* Input Box for General Responses */}
+          {!loading && currentStep !== 'csv_upload' && currentStep !== 'completed' && (
+            <div className="document-agent__input">
+              <input
+                type="text"
+                className="message-input"
+                placeholder={currentField ? `Enter ${currentField.replace('_', ' ')}...` : "Type your response here..."}
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && userInput.trim()) {
+                    if (currentField) {
+                      handleFieldSubmit();
+                    } else {
+                      // Generic response
+                      setMessages(prev => [...prev, {
+                        type: 'user',
+                        content: userInput,
+                        timestamp: new Date()
+                      }, {
+                        type: 'bot',
+                        content: 'Please use the option cards above to continue.',
+                        timestamp: new Date()
+                      }]);
+                      setUserInput('');
+                    }
+                  }
+                }}
+                disabled={loading}
+              />
+              <button
+                className="send-button"
+                onClick={() => {
+                  if (userInput.trim()) {
+                    if (currentField) {
+                      handleFieldSubmit();
+                    } else {
+                      setMessages(prev => [...prev, {
+                        type: 'user',
+                        content: userInput,
+                        timestamp: new Date()
+                      }, {
+                        type: 'bot',
+                        content: 'Please use the option cards above to continue.',
+                        timestamp: new Date()
+                      }]);
+                      setUserInput('');
+                    }
+                  }
+                }}
+                disabled={!userInput.trim() || loading}
+              >
+                <span>📤</span> Send
+              </button>
+            </div>
+          )}
+        </Card>
+
+        {/* Side Panel - Field Progress Tracker */}
+        {(requiredFields.length > 0 || optionalFields.length > 0) && (
+          <div className="document-agent__sidebar">
+            <div className="field-progress">
+              <div className="field-progress__header">
+                <h4>📋 Required Information</h4>
+                <div className="progress-indicator">
+                  <div className="progress-bar">
+                    <div 
+                      className="progress-bar__fill" 
+                      style={{ 
+                        width: `${requiredFields.length > 0 ? (Object.keys(collectedData).filter(k => requiredFields.includes(k)).length / requiredFields.length * 100) : 0}%` 
+                      }}
+                    />
+                  </div>
+                  <span className="progress-text">
+                    {requiredFields.length > 0 ? Math.round(Object.keys(collectedData).filter(k => requiredFields.includes(k)).length / requiredFields.length * 100) : 0}%
+                  </span>
+                </div>
+              </div>
+
+              <div className="field-progress__list">
+                <h5>Required Fields</h5>
+                {requiredFields.map(field => (
+                  <div 
+                    key={field} 
+                    className={`field-item ${
+                      collectedData[field] ? 'field-item--filled' : ''
+                    } ${
+                      currentField === field ? 'field-item--active' : ''
+                    }`}
+                  >
+                    <div className="field-item__icon">
+                      {collectedData[field] ? '✓' : currentField === field ? '→' : '○'}
+                    </div>
+                    <div className="field-item__label">
+                      {field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </div>
+                  </div>
+                ))}
+
+                {optionalFields.length > 0 && (
+                  <>
+                    <h5 style={{ marginTop: '1rem' }}>Optional Fields</h5>
+                    {optionalFields.map(field => (
+                      <div 
+                        key={field} 
+                        className={`field-item field-item--optional ${
+                          collectedData[field] ? 'field-item--filled' : ''
+                        } ${
+                          currentField === field ? 'field-item--active' : ''
+                        }`}
+                      >
+                        <div className="field-item__icon">
+                          {collectedData[field] ? '✓' : currentField === field ? '→' : '○'}
+                        </div>
+                        <div className="field-item__label">
+                          {field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </AppLayout>
+  );
+};
+
+export default DocumentAgent;

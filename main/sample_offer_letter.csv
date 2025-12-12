@@ -1,0 +1,4 @@
+employee_name,position,department,join_date,salary,reporting_manager
+John Smith,Software Engineer,Engineering,2025-01-15,75000,Sarah Johnson
+Jane Doe,Product Manager,Product,2025-01-20,85000,Michael Chen
+Robert Wilson,Data Analyst,Analytics,2025-02-01,65000,Sarah Johnson

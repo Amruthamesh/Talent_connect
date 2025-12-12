@@ -1,0 +1,17 @@
+{
+  "title": "Job Description Generator",
+  "subtitle": "Use AI to create comprehensive, engaging job descriptions",
+  "chatTitle": "AI Assistant",
+  "chatSubtitle": "Chat with our AI to generate your job description",
+  "previewTitle": "Preview",
+  "previewSubtitle": "Your generated job description will appear here",
+  "initialMessage": "Hi! I'm your AI assistant. Tell me about the role you want to create a job description for. Include details like job title, department, experience level, key skills, and any specific requirements.",
+  "inputPlaceholder": "Type your message here...",
+  "emptyPreview": "Start a conversation to generate a job description",
+  "prompts": {
+    "jobTitle": "What is the job title?",
+    "department": "Which department is this for?",
+    "experience": "What experience level are you looking for?",
+    "skills": "What are the key skills required?"
+  }
+}

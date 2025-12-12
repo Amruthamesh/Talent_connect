@@ -1,0 +1,359 @@
+nohup: ignoring input
+INFO:     Will watch for changes in these directories: ['/home/amramesh/Talent_Connect/documents/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [122361] using WatchFiles
+/home/amramesh/.local/lib/python3.10/site-packages/pydantic/_internal/_config.py:383: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+INFO:     Started server process [122428]
+INFO:     Waiting for application startup.
+2025-12-08 18:39:10,039 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:10,039 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-12-08 18:39:10,039 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,041 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("jobs")
+2025-12-08 18:39:10,041 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,042 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("resume_uploads")
+2025-12-08 18:39:10,042 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,044 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("candidate_profiles")
+2025-12-08 18:39:10,044 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,045 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("match_runs")
+2025-12-08 18:39:10,045 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,045 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("match_results")
+2025-12-08 18:39:10,045 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,047 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("jd_uploads")
+2025-12-08 18:39:10,047 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,048 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("document_templates")
+2025-12-08 18:39:10,049 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("generated_documents")
+2025-12-08 18:39:10,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,051 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("document_conversations")
+2025-12-08 18:39:10,051 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,052 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("interviews")
+2025-12-08 18:39:10,052 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-12-08 18:39:10,053 INFO sqlalchemy.engine.Engine PRAGMA table_info('generated_documents')
+2025-12-08 18:39:10,053 INFO sqlalchemy.engine.Engine [generated in 0.00014s] ()
+2025-12-08 18:39:10,055 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+INFO:     127.0.0.1:40866 - "OPTIONS /api/v1/documents/agent/start HTTP/1.1" 200 OK
+2025-12-08 18:39:45,846 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:45,957 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:39:45,957 INFO sqlalchemy.engine.Engine [generated in 0.00034s] ('hr@talent.com',)
+2025-12-08 18:39:45,961 INFO sqlalchemy.engine.Engine INSERT INTO document_conversations (session_id, user_id, current_step, selected_template_id, input_method, context, created_at, updated_at, completed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-08 18:39:45,962 INFO sqlalchemy.engine.Engine [generated in 0.00042s] ('2d634eb5-9544-4111-9c20-fbc59523a3de', 1, 'initial', None, None, '{}', '2025-12-08 13:09:45.961747', '2025-12-08 13:09:45.961750', None)
+2025-12-08 18:39:45,965 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-08 18:39:45,980 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:45,983 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.is_active IS 1
+2025-12-08 18:39:45,983 INFO sqlalchemy.engine.Engine [generated in 0.00055s] ()
+INFO:     127.0.0.1:40866 - "POST /api/v1/documents/agent/start HTTP/1.1" 200 OK
+2025-12-08 18:39:45,986 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:40866 - "OPTIONS /api/v1/documents/agent/start HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40878 - "OPTIONS /api/v1/documents/agent/start HTTP/1.1" 200 OK
+2025-12-08 18:39:48,337 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:48,339 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:39:48,339 INFO sqlalchemy.engine.Engine [cached since 2.382s ago] ('hr@talent.com',)
+2025-12-08 18:39:48,347 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:48,349 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:39:48,349 INFO sqlalchemy.engine.Engine [cached since 2.392s ago] ('hr@talent.com',)
+2025-12-08 18:39:48,352 INFO sqlalchemy.engine.Engine INSERT INTO document_conversations (session_id, user_id, current_step, selected_template_id, input_method, context, created_at, updated_at, completed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-08 18:39:48,352 INFO sqlalchemy.engine.Engine [cached since 2.391s ago] ('7665cb8c-b73a-46b6-925b-a23cd44dd2a5', 1, 'initial', None, None, '{}', '2025-12-08 13:09:48.352358', '2025-12-08 13:09:48.352364', None)
+2025-12-08 18:39:48,355 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-08 18:39:48,357 INFO sqlalchemy.engine.Engine INSERT INTO document_conversations (session_id, user_id, current_step, selected_template_id, input_method, context, created_at, updated_at, completed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-08 18:39:48,358 INFO sqlalchemy.engine.Engine [cached since 2.396s ago] ('b4b59111-8e90-45af-a7a7-452372c013a4', 1, 'initial', None, None, '{}', '2025-12-08 13:09:48.357490', '2025-12-08 13:09:48.357496', None)
+2025-12-08 18:39:48,378 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:48,378 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.is_active IS 1
+2025-12-08 18:39:48,379 INFO sqlalchemy.engine.Engine [cached since 2.396s ago] ()
+INFO:     127.0.0.1:40866 - "POST /api/v1/documents/agent/start HTTP/1.1" 200 OK
+2025-12-08 18:39:48,381 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-08 18:39:48,393 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-08 18:39:48,427 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:48,428 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.is_active IS 1
+2025-12-08 18:39:48,428 INFO sqlalchemy.engine.Engine [cached since 2.446s ago] ()
+INFO:     127.0.0.1:40892 - "POST /api/v1/documents/agent/start HTTP/1.1" 200 OK
+2025-12-08 18:39:48,430 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:40892 - "OPTIONS /api/v1/documents/agent/select-template HTTP/1.1" 200 OK
+2025-12-08 18:39:51,303 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:51,304 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:39:51,304 INFO sqlalchemy.engine.Engine [cached since 5.347s ago] ('hr@talent.com',)
+🔍 DEBUG process_template_selection: session_id=b4b59111-8e90-45af-a7a7-452372c013a4, template_id=2
+2025-12-08 18:39:51,312 INFO sqlalchemy.engine.Engine SELECT document_conversations.id, document_conversations.session_id, document_conversations.user_id, document_conversations.current_step, document_conversations.selected_template_id, document_conversations.input_method, document_conversations.context, document_conversations.created_at, document_conversations.updated_at, document_conversations.completed_at 
+FROM document_conversations 
+WHERE document_conversations.session_id = ?
+2025-12-08 18:39:51,312 INFO sqlalchemy.engine.Engine [generated in 0.00062s] ('b4b59111-8e90-45af-a7a7-452372c013a4',)
+🔍 DEBUG conversation.id=23, current selected_template_id=None
+2025-12-08 18:39:51,320 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.id = ?
+2025-12-08 18:39:51,321 INFO sqlalchemy.engine.Engine [generated in 0.00106s] (2,)
+🔍 DEBUG template found: id=2, name='Corporate HR - Experience Letter'
+🔍 DEBUG After assignment: selected_template_id=2
+🔍 Using database fields: ['employee_name', 'position', 'department', 'joining_date', 'leaving_date']
+2025-12-08 18:39:51,334 INFO sqlalchemy.engine.Engine UPDATE document_conversations SET current_step=?, selected_template_id=?, context=?, updated_at=? WHERE document_conversations.id = ?
+2025-12-08 18:39:51,335 INFO sqlalchemy.engine.Engine [generated in 0.00110s] ('input_method', 2, '{"template_name": "Corporate HR - Experience Letter", "required_fields": ["employee_name", "position", "department", "joining_date", "leaving_date"], "optional_fields": ["achievements", "skills_demonstrated", "recommendation"]}', '2025-12-08 13:09:51.334274', 23)
+2025-12-08 18:39:51,339 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-08 18:39:51,370 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:51,372 INFO sqlalchemy.engine.Engine SELECT document_conversations.id, document_conversations.session_id, document_conversations.user_id, document_conversations.current_step, document_conversations.selected_template_id, document_conversations.input_method, document_conversations.context, document_conversations.created_at, document_conversations.updated_at, document_conversations.completed_at 
+FROM document_conversations 
+WHERE document_conversations.id = ?
+2025-12-08 18:39:51,372 INFO sqlalchemy.engine.Engine [generated in 0.00030s] (23,)
+🔍 DEBUG After commit: selected_template_id=2
+INFO:     127.0.0.1:40866 - "POST /api/v1/documents/agent/select-template HTTP/1.1" 200 OK
+2025-12-08 18:39:51,374 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:40866 - "OPTIONS /api/v1/documents/templates HTTP/1.1" 200 OK
+2025-12-08 18:39:52,858 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:52,859 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:39:52,859 INFO sqlalchemy.engine.Engine [cached since 6.902s ago] ('hr@talent.com',)
+2025-12-08 18:39:52,860 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.is_active IS 1
+2025-12-08 18:39:52,861 INFO sqlalchemy.engine.Engine [cached since 6.878s ago] ()
+INFO:     127.0.0.1:40866 - "GET /api/v1/documents/templates HTTP/1.1" 200 OK
+2025-12-08 18:39:52,863 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:40866 - "OPTIONS /api/v1/documents/sample-csv/experience_letter HTTP/1.1" 200 OK
+2025-12-08 18:39:52,873 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:52,873 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:39:52,873 INFO sqlalchemy.engine.Engine [cached since 6.917s ago] ('hr@talent.com',)
+INFO:     127.0.0.1:40866 - "GET /api/v1/documents/sample-csv/experience_letter HTTP/1.1" 200 OK
+2025-12-08 18:39:52,885 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:40866 - "OPTIONS /api/v1/documents/agent/input-method HTTP/1.1" 200 OK
+2025-12-08 18:39:53,947 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:39:53,947 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:39:53,948 INFO sqlalchemy.engine.Engine [cached since 7.991s ago] ('hr@talent.com',)
+2025-12-08 18:39:53,954 INFO sqlalchemy.engine.Engine SELECT document_conversations.id, document_conversations.session_id, document_conversations.user_id, document_conversations.current_step, document_conversations.selected_template_id, document_conversations.input_method, document_conversations.context, document_conversations.created_at, document_conversations.updated_at, document_conversations.completed_at 
+FROM document_conversations 
+WHERE document_conversations.session_id = ?
+2025-12-08 18:39:53,955 INFO sqlalchemy.engine.Engine [cached since 2.643s ago] ('b4b59111-8e90-45af-a7a7-452372c013a4',)
+2025-12-08 18:39:53,962 INFO sqlalchemy.engine.Engine UPDATE document_conversations SET current_step=?, input_method=?, updated_at=? WHERE document_conversations.id = ?
+2025-12-08 18:39:53,962 INFO sqlalchemy.engine.Engine [generated in 0.00068s] ('csv_upload', 'upload_csv', '2025-12-08 13:09:53.962237', 23)
+2025-12-08 18:39:53,967 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:40892 - "POST /api/v1/documents/agent/input-method HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47904 - "OPTIONS /api/v1/documents/agent/upload-csv HTTP/1.1" 200 OK
+2025-12-08 18:40:04,434 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:40:04,435 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:40:04,435 INFO sqlalchemy.engine.Engine [cached since 18.48s ago] ('hr@talent.com',)
+2025-12-08 18:40:04,437 INFO sqlalchemy.engine.Engine SELECT document_conversations.id, document_conversations.session_id, document_conversations.user_id, document_conversations.current_step, document_conversations.selected_template_id, document_conversations.input_method, document_conversations.context, document_conversations.created_at, document_conversations.updated_at, document_conversations.completed_at 
+FROM document_conversations 
+WHERE document_conversations.session_id = ?
+2025-12-08 18:40:04,437 INFO sqlalchemy.engine.Engine [cached since 13.13s ago] ('b4b59111-8e90-45af-a7a7-452372c013a4',)
+2025-12-08 18:40:04,438 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.id = ?
+2025-12-08 18:40:04,438 INFO sqlalchemy.engine.Engine [cached since 13.12s ago] (2,)
+❌ No manual_data or signature in context. Context keys: ['template_name', 'required_fields', 'optional_fields']
+⚠️ Row 1: No signature available (global or row-specific)
+2025-12-08 18:40:04,441 INFO sqlalchemy.engine.Engine INSERT INTO generated_documents (template_id, employee_code, phone_number_hash, email_hash, recipient_name_encrypted, document_type, content, document_data, preview_masked_html, file_storage_path, file_hash, generated_by, generated_at, status, email_sent, digitally_signed, job_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-08 18:40:04,442 INFO sqlalchemy.engine.Engine [generated in 0.00029s] (2, None, None, None, 'Robert Wilson', 'Corporate HR - Experience Letter', 'DHL EXPRESS\n============================================================\n\nCorporate HR - Experience Letter\n\nDate: December 08, 2025\n\nEmployee  ... (388 characters truncated) ... nThis is an official document from DHL Express.\nFor any queries, please contact HR Department.\n\nDHL Express | Connecting People, Improving Lives\n', '{"employee_name": "Robert Wilson", "position": "Senior Developer", "department": "Engineering", "joining_date": "2022-03-15", "leaving_date": "2025-1 ... (66 characters truncated) ... lopers", "skills_demonstrated": "Python, React, Leadership, Agile Development", "recommendation": "Excellent performer with strong technical skills"}', None, None, None, 1, '2025-12-08 13:10:04.441891', 'generated', 0, 0, None)
+2025-12-08 18:40:04,446 INFO sqlalchemy.engine.Engine UPDATE generated_documents SET phone_number_hash=?, email_hash=?, preview_masked_html=? WHERE generated_documents.id = ?
+2025-12-08 18:40:04,447 INFO sqlalchemy.engine.Engine [generated in 0.00060s] (None, None, 'DHL EXPRESS\n============================================================\n\nCorporate HR - Experience Letter\n\nDate: December 08, 2025\n\nEmployee  ... (385 characters truncated) ... nThis is an official document from DHL Express.\nFor any queries, please contact HR Department.\n\nDHL Express | Connecting People, Improving Lives\n', 1)
+⚠️ Row 2: No signature available (global or row-specific)
+2025-12-08 18:40:04,450 INFO sqlalchemy.engine.Engine INSERT INTO generated_documents (template_id, employee_code, phone_number_hash, email_hash, recipient_name_encrypted, document_type, content, document_data, preview_masked_html, file_storage_path, file_hash, generated_by, generated_at, status, email_sent, digitally_signed, job_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-08 18:40:04,450 INFO sqlalchemy.engine.Engine [cached since 0.008988s ago] (2, None, None, None, 'Lisa Chen', 'Corporate HR - Experience Letter', 'DHL EXPRESS\n============================================================\n\nCorporate HR - Experience Letter\n\nDate: December 08, 2025\n\nEmployee  ... (408 characters truncated) ... nThis is an official document from DHL Express.\nFor any queries, please contact HR Department.\n\nDHL Express | Connecting People, Improving Lives\n', '{"employee_name": "Lisa Chen", "position": "Product Manager", "department": "Product", "joining_date": "2021-06-01", "leaving_date": "2025-11-30", "a ... (86 characters truncated) ... lls_demonstrated": "Product Strategy, Data Analysis, Cross-functional Leadership", "recommendation": "Outstanding strategic thinker and team leader"}', None, None, None, 1, '2025-12-08 13:10:04.450575', 'generated', 0, 0, None)
+2025-12-08 18:40:04,451 INFO sqlalchemy.engine.Engine UPDATE generated_documents SET phone_number_hash=?, email_hash=?, preview_masked_html=? WHERE generated_documents.id = ?
+2025-12-08 18:40:04,452 INFO sqlalchemy.engine.Engine [cached since 0.005211s ago] (None, None, 'DHL EXPRESS\n============================================================\n\nCorporate HR - Experience Letter\n\nDate: December 08, 2025\n\nEmployee  ... (407 characters truncated) ... nThis is an official document from DHL Express.\nFor any queries, please contact HR Department.\n\nDHL Express | Connecting People, Improving Lives\n', 2)
+2025-12-08 18:40:04,453 INFO sqlalchemy.engine.Engine UPDATE document_conversations SET current_step=?, context=?, updated_at=? WHERE document_conversations.id = ?
+2025-12-08 18:40:04,453 INFO sqlalchemy.engine.Engine [generated in 0.00020s] ('preview', '{"template_name": "Corporate HR - Experience Letter", "required_fields": ["employee_name", "position", "department", "joining_date", "leaving_date"], "optional_fields": ["achievements", "skills_demonstrated", "recommendation"], "generated_document_ids": [1, 2]}', '2025-12-08 13:10:04.453260', 23)
+2025-12-08 18:40:04,454 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:47904 - "POST /api/v1/documents/agent/upload-csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44286 - "OPTIONS /api/v1/documents/agent/start HTTP/1.1" 200 OK
+2025-12-08 18:41:23,370 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:41:23,371 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:41:23,371 INFO sqlalchemy.engine.Engine [cached since 97.41s ago] ('hr@talent.com',)
+2025-12-08 18:41:23,373 INFO sqlalchemy.engine.Engine INSERT INTO document_conversations (session_id, user_id, current_step, selected_template_id, input_method, context, created_at, updated_at, completed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-08 18:41:23,373 INFO sqlalchemy.engine.Engine [cached since 97.41s ago] ('39061b27-f41e-4848-a2f2-a0ad71f62358', 1, 'initial', None, None, '{}', '2025-12-08 13:11:23.373347', '2025-12-08 13:11:23.373350', None)
+2025-12-08 18:41:23,374 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-08 18:41:23,421 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:41:23,422 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.is_active IS 1
+2025-12-08 18:41:23,422 INFO sqlalchemy.engine.Engine [cached since 97.44s ago] ()
+INFO:     127.0.0.1:44286 - "POST /api/v1/documents/agent/start HTTP/1.1" 200 OK
+2025-12-08 18:41:23,424 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:44286 - "OPTIONS /api/v1/documents/agent/select-template HTTP/1.1" 200 OK
+2025-12-08 18:41:24,088 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:41:24,089 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:41:24,089 INFO sqlalchemy.engine.Engine [cached since 98.13s ago] ('hr@talent.com',)
+🔍 DEBUG process_template_selection: session_id=39061b27-f41e-4848-a2f2-a0ad71f62358, template_id=2
+2025-12-08 18:41:24,091 INFO sqlalchemy.engine.Engine SELECT document_conversations.id, document_conversations.session_id, document_conversations.user_id, document_conversations.current_step, document_conversations.selected_template_id, document_conversations.input_method, document_conversations.context, document_conversations.created_at, document_conversations.updated_at, document_conversations.completed_at 
+FROM document_conversations 
+WHERE document_conversations.session_id = ?
+2025-12-08 18:41:24,091 INFO sqlalchemy.engine.Engine [cached since 92.78s ago] ('39061b27-f41e-4848-a2f2-a0ad71f62358',)
+🔍 DEBUG conversation.id=24, current selected_template_id=None
+2025-12-08 18:41:24,093 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.id = ?
+2025-12-08 18:41:24,093 INFO sqlalchemy.engine.Engine [cached since 92.77s ago] (2,)
+🔍 DEBUG template found: id=2, name='Corporate HR - Experience Letter'
+🔍 DEBUG After assignment: selected_template_id=2
+🔍 Using database fields: ['employee_name', 'position', 'department', 'joining_date', 'leaving_date']
+2025-12-08 18:41:24,095 INFO sqlalchemy.engine.Engine UPDATE document_conversations SET current_step=?, selected_template_id=?, context=?, updated_at=? WHERE document_conversations.id = ?
+2025-12-08 18:41:24,095 INFO sqlalchemy.engine.Engine [cached since 92.76s ago] ('input_method', 2, '{"template_name": "Corporate HR - Experience Letter", "required_fields": ["employee_name", "position", "department", "joining_date", "leaving_date"], "optional_fields": ["achievements", "skills_demonstrated", "recommendation"]}', '2025-12-08 13:11:24.095358', 24)
+2025-12-08 18:41:24,097 INFO sqlalchemy.engine.Engine COMMIT
+2025-12-08 18:41:24,133 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:41:24,134 INFO sqlalchemy.engine.Engine SELECT document_conversations.id, document_conversations.session_id, document_conversations.user_id, document_conversations.current_step, document_conversations.selected_template_id, document_conversations.input_method, document_conversations.context, document_conversations.created_at, document_conversations.updated_at, document_conversations.completed_at 
+FROM document_conversations 
+WHERE document_conversations.id = ?
+2025-12-08 18:41:24,134 INFO sqlalchemy.engine.Engine [cached since 92.76s ago] (24,)
+🔍 DEBUG After commit: selected_template_id=2
+INFO:     127.0.0.1:44300 - "POST /api/v1/documents/agent/select-template HTTP/1.1" 200 OK
+2025-12-08 18:41:24,136 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:44300 - "OPTIONS /api/v1/documents/templates HTTP/1.1" 200 OK
+2025-12-08 18:41:25,671 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:41:25,672 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:41:25,672 INFO sqlalchemy.engine.Engine [cached since 99.72s ago] ('hr@talent.com',)
+2025-12-08 18:41:25,675 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.is_active IS 1
+2025-12-08 18:41:25,675 INFO sqlalchemy.engine.Engine [cached since 99.69s ago] ()
+INFO:     127.0.0.1:44300 - "GET /api/v1/documents/templates HTTP/1.1" 200 OK
+2025-12-08 18:41:25,679 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:44300 - "OPTIONS /api/v1/documents/sample-csv/experience_letter HTTP/1.1" 200 OK
+2025-12-08 18:41:25,695 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:41:25,696 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:41:25,696 INFO sqlalchemy.engine.Engine [cached since 99.74s ago] ('hr@talent.com',)
+INFO:     127.0.0.1:44300 - "GET /api/v1/documents/sample-csv/experience_letter HTTP/1.1" 200 OK
+2025-12-08 18:41:25,702 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:44300 - "OPTIONS /api/v1/documents/agent/input-method HTTP/1.1" 200 OK
+2025-12-08 18:41:26,622 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:41:26,623 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:41:26,623 INFO sqlalchemy.engine.Engine [cached since 100.7s ago] ('hr@talent.com',)
+2025-12-08 18:41:26,625 INFO sqlalchemy.engine.Engine SELECT document_conversations.id, document_conversations.session_id, document_conversations.user_id, document_conversations.current_step, document_conversations.selected_template_id, document_conversations.input_method, document_conversations.context, document_conversations.created_at, document_conversations.updated_at, document_conversations.completed_at 
+FROM document_conversations 
+WHERE document_conversations.session_id = ?
+2025-12-08 18:41:26,626 INFO sqlalchemy.engine.Engine [cached since 95.31s ago] ('39061b27-f41e-4848-a2f2-a0ad71f62358',)
+2025-12-08 18:41:26,628 INFO sqlalchemy.engine.Engine UPDATE document_conversations SET current_step=?, input_method=?, updated_at=? WHERE document_conversations.id = ?
+2025-12-08 18:41:26,629 INFO sqlalchemy.engine.Engine [cached since 92.67s ago] ('csv_upload', 'upload_csv', '2025-12-08 13:11:26.628700', 24)
+2025-12-08 18:41:26,630 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:44286 - "POST /api/v1/documents/agent/input-method HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44304 - "OPTIONS /api/v1/documents/agent/upload-signature HTTP/1.1" 200 OK
+2025-12-08 18:41:38,773 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:41:38,774 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:41:38,774 INFO sqlalchemy.engine.Engine [cached since 112.8s ago] ('hr@talent.com',)
+2025-12-08 18:41:38,777 INFO sqlalchemy.engine.Engine SELECT document_conversations.id, document_conversations.session_id, document_conversations.user_id, document_conversations.current_step, document_conversations.selected_template_id, document_conversations.input_method, document_conversations.context, document_conversations.created_at, document_conversations.updated_at, document_conversations.completed_at 
+FROM document_conversations 
+WHERE document_conversations.session_id = ?
+2025-12-08 18:41:38,777 INFO sqlalchemy.engine.Engine [cached since 107.5s ago] ('39061b27-f41e-4848-a2f2-a0ad71f62358',)
+2025-12-08 18:41:38,783 INFO sqlalchemy.engine.Engine UPDATE document_conversations SET context=?, updated_at=? WHERE document_conversations.id = ?
+2025-12-08 18:41:38,784 INFO sqlalchemy.engine.Engine [generated in 0.00098s] ('{"template_name": "Corporate HR - Experience Letter", "required_fields": ["employee_name", "position", "department", "joining_date", "leaving_date"], ... (20828 characters truncated) ... kndbl5HqOg3RSTcORVQRSApCFsXDuHf7xD+RDQPy/Ht/A6AAB/c3+4hpCcnEqxilApSlAoAAFD5lAwiIiHvyI6//9k="}, "validation_status": {"signatory_signature": "valid"}}', '2025-12-08 13:11:38.783292', 24)
+2025-12-08 18:41:38,786 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:44304 - "POST /api/v1/documents/agent/upload-signature HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44304 - "OPTIONS /api/v1/documents/agent/upload-csv HTTP/1.1" 200 OK
+2025-12-08 18:41:40,102 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:41:40,102 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:41:40,102 INFO sqlalchemy.engine.Engine [cached since 114.1s ago] ('hr@talent.com',)
+2025-12-08 18:41:40,104 INFO sqlalchemy.engine.Engine SELECT document_conversations.id, document_conversations.session_id, document_conversations.user_id, document_conversations.current_step, document_conversations.selected_template_id, document_conversations.input_method, document_conversations.context, document_conversations.created_at, document_conversations.updated_at, document_conversations.completed_at 
+FROM document_conversations 
+WHERE document_conversations.session_id = ?
+2025-12-08 18:41:40,104 INFO sqlalchemy.engine.Engine [cached since 108.8s ago] ('39061b27-f41e-4848-a2f2-a0ad71f62358',)
+2025-12-08 18:41:40,106 INFO sqlalchemy.engine.Engine SELECT document_templates.id, document_templates.name, document_templates.category, document_templates.file_path, document_templates.description, document_templates.required_fields, document_templates.optional_fields, document_templates.uses_company_logo, document_templates.uses_company_letterhead, document_templates.is_active, document_templates.created_at, document_templates.updated_at 
+FROM document_templates 
+WHERE document_templates.id = ?
+2025-12-08 18:41:40,106 INFO sqlalchemy.engine.Engine [cached since 108.8s ago] (2,)
+🔍 Found global signature in context: /9j/4AAQSkZJRgABAQEABQAFAAD/7Q5uUGhvdG9zaG9wIDMuMA...
+✅ Row 1: Applied global signature
+✅ Row 1: Signature added to row_data (signatory_name and designation FORCED to 'skip')
+2025-12-08 18:41:40,107 INFO sqlalchemy.engine.Engine INSERT INTO generated_documents (template_id, employee_code, phone_number_hash, email_hash, recipient_name_encrypted, document_type, content, document_data, preview_masked_html, file_storage_path, file_hash, generated_by, generated_at, status, email_sent, digitally_signed, job_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-08 18:41:40,108 INFO sqlalchemy.engine.Engine [cached since 95.67s ago] (2, None, None, None, 'Robert Wilson', 'Corporate HR - Experience Letter', 'DHL EXPRESS\n============================================================\n\nCorporate HR - Experience Letter\n\nDate: December 08, 2025\n\nEmployee  ... (388 characters truncated) ... nThis is an official document from DHL Express.\nFor any queries, please contact HR Department.\n\nDHL Express | Connecting People, Improving Lives\n', '{"employee_name": "Robert Wilson", "position": "Senior Developer", "department": "Engineering", "joining_date": "2022-03-15", "leaving_date": "2025-1 ... (20952 characters truncated) ... bl5HqOg3RSTcORVQRSApCFsXDuHf7xD+RDQPy/Ht/A6AAB/c3+4hpCcnEqxilApSlAoAAFD5lAwiIiHvyI6//9k=", "signatory_name": "skip", "signatory_designation": "skip"}', None, None, None, 1, '2025-12-08 13:11:40.107786', 'generated', 0, 0, None)
+2025-12-08 18:41:40,109 INFO sqlalchemy.engine.Engine UPDATE generated_documents SET phone_number_hash=?, email_hash=?, preview_masked_html=? WHERE generated_documents.id = ?
+2025-12-08 18:41:40,109 INFO sqlalchemy.engine.Engine [cached since 95.66s ago] (None, None, 'DHL EXPRESS\n============================================================\n\nCorporate HR - Experience Letter\n\nDate: December 08, 2025\n\nEmployee  ... (385 characters truncated) ... nThis is an official document from DHL Express.\nFor any queries, please contact HR Department.\n\nDHL Express | Connecting People, Improving Lives\n', 3)
+✅ Row 2: Applied global signature
+✅ Row 2: Signature added to row_data (signatory_name and designation FORCED to 'skip')
+2025-12-08 18:41:40,111 INFO sqlalchemy.engine.Engine INSERT INTO generated_documents (template_id, employee_code, phone_number_hash, email_hash, recipient_name_encrypted, document_type, content, document_data, preview_masked_html, file_storage_path, file_hash, generated_by, generated_at, status, email_sent, digitally_signed, job_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-12-08 18:41:40,111 INFO sqlalchemy.engine.Engine [cached since 95.67s ago] (2, None, None, None, 'Lisa Chen', 'Corporate HR - Experience Letter', 'DHL EXPRESS\n============================================================\n\nCorporate HR - Experience Letter\n\nDate: December 08, 2025\n\nEmployee  ... (408 characters truncated) ... nThis is an official document from DHL Express.\nFor any queries, please contact HR Department.\n\nDHL Express | Connecting People, Improving Lives\n', '{"employee_name": "Lisa Chen", "position": "Product Manager", "department": "Product", "joining_date": "2021-06-01", "leaving_date": "2025-11-30", "a ... (20972 characters truncated) ... bl5HqOg3RSTcORVQRSApCFsXDuHf7xD+RDQPy/Ht/A6AAB/c3+4hpCcnEqxilApSlAoAAFD5lAwiIiHvyI6//9k=", "signatory_name": "skip", "signatory_designation": "skip"}', None, None, None, 1, '2025-12-08 13:11:40.111165', 'generated', 0, 0, None)
+2025-12-08 18:41:40,112 INFO sqlalchemy.engine.Engine UPDATE generated_documents SET phone_number_hash=?, email_hash=?, preview_masked_html=? WHERE generated_documents.id = ?
+2025-12-08 18:41:40,113 INFO sqlalchemy.engine.Engine [cached since 95.67s ago] (None, None, 'DHL EXPRESS\n============================================================\n\nCorporate HR - Experience Letter\n\nDate: December 08, 2025\n\nEmployee  ... (407 characters truncated) ... nThis is an official document from DHL Express.\nFor any queries, please contact HR Department.\n\nDHL Express | Connecting People, Improving Lives\n', 4)
+2025-12-08 18:41:40,115 INFO sqlalchemy.engine.Engine UPDATE document_conversations SET current_step=?, context=?, updated_at=? WHERE document_conversations.id = ?
+2025-12-08 18:41:40,115 INFO sqlalchemy.engine.Engine [cached since 95.66s ago] ('preview', '{"template_name": "Corporate HR - Experience Letter", "required_fields": ["employee_name", "position", "department", "joining_date", "leaving_date"], ... (20862 characters truncated) ... +RDQPy/Ht/A6AAB/c3+4hpCcnEqxilApSlAoAAFD5lAwiIiHvyI6//9k="}, "validation_status": {"signatory_signature": "valid"}, "generated_document_ids": [3, 4]}', '2025-12-08 13:11:40.115545', 24)
+2025-12-08 18:41:40,118 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:44304 - "POST /api/v1/documents/agent/upload-csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53794 - "OPTIONS /api/v1/documents/query HTTP/1.1" 200 OK
+2025-12-08 18:42:01,093 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:42:01,093 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:42:01,093 INFO sqlalchemy.engine.Engine [cached since 135.1s ago] ('hr@talent.com',)
+INFO:     127.0.0.1:53804 - "OPTIONS /api/v1/documents/query HTTP/1.1" 200 OK
+2025-12-08 18:42:01,101 INFO sqlalchemy.engine.Engine SELECT generated_documents.id, generated_documents.template_id, generated_documents.employee_code, generated_documents.phone_number_hash, generated_documents.email_hash, generated_documents.recipient_name_encrypted, generated_documents.document_type, generated_documents.content, generated_documents.document_data, generated_documents.preview_masked_html, generated_documents.file_storage_path, generated_documents.file_hash, generated_documents.generated_by, generated_documents.generated_at, generated_documents.status, generated_documents.email_sent, generated_documents.digitally_signed, generated_documents.job_id 
+FROM generated_documents 
+WHERE generated_documents.generated_by = ? ORDER BY generated_documents.generated_at DESC
+ LIMIT ? OFFSET ?
+2025-12-08 18:42:01,101 INFO sqlalchemy.engine.Engine [generated in 0.00038s] (1, 50, 0)
+2025-12-08 18:42:01,103 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:42:01,103 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:42:01,103 INFO sqlalchemy.engine.Engine [cached since 135.1s ago] ('hr@talent.com',)
+2025-12-08 18:42:01,106 INFO sqlalchemy.engine.Engine SELECT generated_documents.id, generated_documents.template_id, generated_documents.employee_code, generated_documents.phone_number_hash, generated_documents.email_hash, generated_documents.recipient_name_encrypted, generated_documents.document_type, generated_documents.content, generated_documents.document_data, generated_documents.preview_masked_html, generated_documents.file_storage_path, generated_documents.file_hash, generated_documents.generated_by, generated_documents.generated_at, generated_documents.status, generated_documents.email_sent, generated_documents.digitally_signed, generated_documents.job_id 
+FROM generated_documents 
+WHERE generated_documents.generated_by = ? ORDER BY generated_documents.generated_at DESC
+ LIMIT ? OFFSET ?
+2025-12-08 18:42:01,106 INFO sqlalchemy.engine.Engine [cached since 0.005045s ago] (1, 50, 0)
+INFO:     127.0.0.1:53794 - "GET /api/v1/documents/query HTTP/1.1" 200 OK
+2025-12-08 18:42:01,109 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:53804 - "GET /api/v1/documents/query HTTP/1.1" 200 OK
+2025-12-08 18:42:01,112 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:48730 - "OPTIONS /api/v1/documents/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48746 - "OPTIONS /api/v1/documents/query HTTP/1.1" 200 OK
+2025-12-08 18:43:22,649 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:43:22,650 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:43:22,650 INFO sqlalchemy.engine.Engine [cached since 216.7s ago] ('hr@talent.com',)
+2025-12-08 18:43:22,652 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-12-08 18:43:22,652 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.hashed_password, users.full_name, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = ?
+2025-12-08 18:43:22,653 INFO sqlalchemy.engine.Engine [cached since 216.7s ago] ('hr@talent.com',)
+2025-12-08 18:43:22,656 INFO sqlalchemy.engine.Engine SELECT generated_documents.id, generated_documents.template_id, generated_documents.employee_code, generated_documents.phone_number_hash, generated_documents.email_hash, generated_documents.recipient_name_encrypted, generated_documents.document_type, generated_documents.content, generated_documents.document_data, generated_documents.preview_masked_html, generated_documents.file_storage_path, generated_documents.file_hash, generated_documents.generated_by, generated_documents.generated_at, generated_documents.status, generated_documents.email_sent, generated_documents.digitally_signed, generated_documents.job_id 
+FROM generated_documents 
+WHERE generated_documents.generated_by = ? ORDER BY generated_documents.generated_at DESC
+ LIMIT ? OFFSET ?
+2025-12-08 18:43:22,656 INFO sqlalchemy.engine.Engine [cached since 81.56s ago] (1, 50, 0)
+2025-12-08 18:43:22,658 INFO sqlalchemy.engine.Engine SELECT generated_documents.id, generated_documents.template_id, generated_documents.employee_code, generated_documents.phone_number_hash, generated_documents.email_hash, generated_documents.recipient_name_encrypted, generated_documents.document_type, generated_documents.content, generated_documents.document_data, generated_documents.preview_masked_html, generated_documents.file_storage_path, generated_documents.file_hash, generated_documents.generated_by, generated_documents.generated_at, generated_documents.status, generated_documents.email_sent, generated_documents.digitally_signed, generated_documents.job_id 
+FROM generated_documents 
+WHERE generated_documents.generated_by = ? ORDER BY generated_documents.generated_at DESC
+ LIMIT ? OFFSET ?
+2025-12-08 18:43:22,658 INFO sqlalchemy.engine.Engine [cached since 81.56s ago] (1, 50, 0)
+INFO:     127.0.0.1:48746 - "GET /api/v1/documents/query HTTP/1.1" 200 OK
+2025-12-08 18:43:22,661 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:48730 - "GET /api/v1/documents/query HTTP/1.1" 200 OK
+2025-12-08 18:43:22,666 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [122428]
+INFO:     Stopping reloader process [122361]

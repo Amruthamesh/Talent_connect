@@ -1,0 +1,5 @@
+{
+  "title": "Document Query",
+  "subtitle": "Search and retrieve previously generated documents",
+  "searchPlaceholder": "Search by employee name, document type, or date..."
+}

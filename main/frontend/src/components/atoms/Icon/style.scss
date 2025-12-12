@@ -1,0 +1,21 @@
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  &--small {
+    font-size: 1rem;
+  }
+  
+  &--medium {
+    font-size: 1.25rem;
+  }
+  
+  &--large {
+    font-size: 1.5rem;
+  }
+  
+  &--xlarge {
+    font-size: 2rem;
+  }
+}

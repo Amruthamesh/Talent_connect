@@ -1,0 +1,18 @@
+{
+  "title": "Dashboard",
+  "subtitle": "Welcome back, {role}",
+  "stats": {
+    "jobs": "Active Jobs",
+    "documents": "Documents Generated",
+    "interviews": "Interviews Scheduled",
+    "candidates": "Candidates Matched"
+  },
+  "recentActivity": {
+    "title": "Recent Activity",
+    "subtitle": "Latest actions in your workspace"
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "subtitle": "Get started with common tasks"
+  }
+}

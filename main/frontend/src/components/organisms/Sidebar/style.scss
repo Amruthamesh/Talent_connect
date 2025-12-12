@@ -1,0 +1,109 @@
+.sidebar {
+  background-color: white;
+  border-right: 1px solid var(--border-light);
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: width var(--transition-base);
+  
+  &--collapsed {
+    width: 72px;
+    
+    .sidebar__label {
+      display: none;
+    }
+    
+    .sidebar__link {
+      justify-content: center;
+    }
+  }
+  
+  &__toggle {
+    position: absolute;
+    top: var(--spacing-md);
+    right: -12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--border-light);
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+    z-index: 10;
+    
+    &:hover {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    svg {
+      font-size: 0.875rem;
+    }
+  }
+  
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xl) var(--spacing-md);
+    flex: 1;
+  }
+  
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    
+    &:hover {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+    
+    &--active {
+      background-color: var(--primary-light);
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+  }
+  
+  &__icon {
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+  }
+  
+  &__label {
+    font-size: 0.9375rem;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 57px;
+    bottom: 0;
+    z-index: 50;
+    transform: translateX(-100%);
+    
+    &--collapsed {
+      transform: translateX(0);
+    }
+  }
+}
